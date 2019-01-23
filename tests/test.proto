@@ -1,0 +1,8 @@
+//use under command to generate pb.pb.go
+//protoc --proto_path=.:$GOPATH/src/github.com/gogo/protobuf --gogo_out=Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types:. *.proto
+syntax = "proto3";
+package tests;
+
+message Time {
+    int64 Now = 1;
+}

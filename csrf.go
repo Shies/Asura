@@ -3,7 +3,8 @@ package blade
 import (
 	"net/url"
 	"strings"
-	"log"
+
+	"blade/log"
 )
 
 var (
@@ -22,7 +23,7 @@ func CSRF() HandlerFunc {
 			if !cross {
 				return
 			}
-			log.Printf("The request's Referer header is empty.")
+			log.Error("The request's Referer header is empty.")
 			c.AbortWithStatus(403)
 			return
 		}
@@ -36,7 +37,7 @@ func CSRF() HandlerFunc {
 			}
 		}
 		if illegal {
-			log.Printf("The request's Referer header `%s` does not match any of allowed referers.", referer)
+			log.Error("The request's Referer header `%s` does not match any of allowed referers.", referer)
 			c.AbortWithStatus(403)
 			return
 		}

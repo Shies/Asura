@@ -6,8 +6,9 @@ import (
 	"strings"
 	"time"
 
+	"blade/log"
+
 	"github.com/pkg/errors"
-	"log"
 )
 
 var (
@@ -122,7 +123,7 @@ func (cors *cors) applyCORS(c *Context) {
 		return
 	}
 	if !cors.validateOrigin(origin) {
-		log.Printf("The request's Origin header `%s` does not match any of allowed origins.", origin)
+		log.Error("The request's Origin header `%s` does not match any of allowed origins.", origin)
 		c.AbortWithStatus(http.StatusForbidden)
 		return
 	}

@@ -5,7 +5,8 @@ import (
 	"net/http/httputil"
 	"os"
 	"runtime"
-	"log"
+
+	"blade/log"
 )
 
 // Recovery returns a middleware that recovers from any panics and writes a 500 if there was one.
@@ -22,7 +23,7 @@ func Recovery() HandlerFunc {
 				}
 				pl := fmt.Sprintf("http call panic: %s\n%v\n%s\n", string(rawReq), err, buf)
 				fmt.Fprintf(os.Stderr, pl)
-				log.Printf(pl)
+				log.Info(pl)
 				c.AbortWithStatus(500)
 			}
 		}()

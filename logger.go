@@ -7,6 +7,7 @@ import (
 	"log"
 )
 
+// Logger init middleware
 func Logger() HandlerFunc {
 	return func(c *Context) {
 		flag.Parse()

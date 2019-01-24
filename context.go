@@ -144,7 +144,6 @@ func (c *Context) Render(code int, r render.Render) {
 	}
 
 	params := c.Request.Form
-
 	cb := params.Get("callback")
 	jsonp := cb != "" && params.Get("jsonp") == "jsonp"
 	if jsonp {
@@ -162,6 +161,7 @@ func (c *Context) Render(code int, r render.Render) {
 			c.Error = errors.WithStack(err)
 		}
 	}
+	return
 }
 
 // JSON serializes the given struct as JSON into the response body.
@@ -272,11 +272,11 @@ func (c *Context) Redirect(code int, location string) {
 }
 
 // RemoteIP implements a best effort algorithm to return the real client IP, it parses
-// X-BACKEND-BILI-REAL-IP or X-Real-IP or X-Forwarded-For in order to work properly with reverse-proxies such us: nginx or haproxy.
+// X-BACKEND-REAL-IP or X-Real-IP or X-Forwarded-For in order to work properly with reverse-proxies such us: nginx or haproxy.
 // Use X-Forwarded-For before X-Real-Ip as nginx uses X-Real-Ip with the proxy's IP.
 func (c *Context) RemoteIP() (cip string) {
 	req := c.Request
-	if cip = req.Header.Get("X-BACKEND-BILI-REAL-IP"); cip != "" && cip != "null" {
+	if cip = req.Header.Get("X-BACKEND-REAL-IP"); cip != "" && cip != "null" {
 		return
 	}
 	var xff = req.Header.Get("X-Forwarded-For")

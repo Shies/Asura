@@ -4,11 +4,11 @@
 
 ##### 项目简介
 
-> 设计了restful-router, 模块化/微服务化, 各模块完全解耦, 互不影响, 提升可维护性
-> 设计了middleware的前置，中置，后置
-> 设计了render自动识别struct层
-> 设计了统一的exception处理层
-> 设计了针对http捆绑了一些validator
+- Restful Router及单元测试的良好支持
+- 提供类似于 Laravel 的 middleware(Filters & Terminators) 机制
+- 提供了统一的Exception处理层
+- 设计了Validator/Binding帮助我们更好构建Request和转换数据类型
+- 灵活的适配器设计模式，统一了Response数据格式
 
 ##### 项目特点
 

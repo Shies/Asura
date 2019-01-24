@@ -2,9 +2,11 @@ package blade_test
 
 import (
 	"io/ioutil"
+	"net/http"
 	"time"
 
 	"blade"
+	"blade/render"
 	"blade/binding"
 	"blade/log"
 )
@@ -117,8 +119,8 @@ func ExampleContext_JSON() {
 func ExampleContext_Protobuf() {
 	engine := blade.Default()
 	engine.GET("/ping.pb", func(c *blade.Context) {
-		t := &tests.Time{
-			Now: time.Now().Unix(),
+		t := &render.PB{
+			Code: http.StatusOK,
 		}
 		c.Protobuf(t, nil)
 	})

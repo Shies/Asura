@@ -127,8 +127,6 @@ func (engine *Engine) SetConfig(conf *Config) (err error) {
 
 func (engine *Engine) handleContext(c *Context) {
 	var cancel func()
-	req := c.Request
-	req.ParseForm()
 	// get derived timeout from http request header,
 	// compare with the engine configured,
 	// and use the minimum one

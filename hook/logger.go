@@ -1,15 +1,16 @@
-package blade
+package hook
 
 import (
 	"fmt"
 
+	"blade"
 	"blade/ecode"
 	"blade/log"
 )
 
 // Logger init middleware
-func Logger() HandlerFunc {
-	return func(c *Context) {
+func Logger() blade.HandlerFunc {
+	return func(c *blade.Context) {
 		ip := c.RemoteIP()
 		req := c.Request
 		path := req.URL.Path

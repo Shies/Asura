@@ -1,11 +1,13 @@
-package blade
+package hook
 
 import (
+	"blade"
+
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
-func monitor() HandlerFunc {
-	return func(c *Context) {
+func Monitor() blade.HandlerFunc {
+	return func(c *blade.Context) {
 		h := promhttp.Handler()
 		h.ServeHTTP(c.Writer, c.Request)
 	}

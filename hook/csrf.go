@@ -1,9 +1,10 @@
-package blade
+package hook
 
 import (
 	"net/url"
 	"strings"
 
+	"blade"
 	"blade/log"
 )
 
@@ -14,8 +15,8 @@ var (
 
 // CSRF returns the csrf middleware to prevent invalid cross site request.
 // Only referer is checked currently.
-func CSRF() HandlerFunc {
-	return func(c *Context) {
+func CSRF() blade.HandlerFunc {
+	return func(c *blade.Context) {
 		referer := c.Request.Header.Get("Referer")
 		params := c.Request.Form
 		cross := (params.Get("callback") != "" && params.Get("jsonp") == "jsonp") || (params.Get("cross_domain") != "")

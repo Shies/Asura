@@ -1,7 +1,9 @@
-package blade
+package hook
 
 import (
 	"strconv"
+
+	"blade"
 )
 
 const (
@@ -46,8 +48,8 @@ type Device struct {
 }
 
 // Mobile is the default handler
-func Mobile() HandlerFunc {
-	return func(ctx *Context) {
+func Mobile() blade.HandlerFunc {
+	return func(ctx *blade.Context) {
 		req := ctx.Request
 		dev := new(Device)
 		dev.Buvid = req.Header.Get("Buvid")

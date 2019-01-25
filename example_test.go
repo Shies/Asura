@@ -8,8 +8,8 @@ import (
 	"blade"
 	"blade/render"
 	"blade/binding"
-	h "blade/hook"
-	"blade/log"
+	. "blade/hook"
+	"blade/slog"
 )
 
 // This example start a http server and listen at port 8080,
@@ -27,12 +27,12 @@ func Example() {
 func ExampleRouterGroup() {
 	engine := blade.Default()
 
-	group := engine.Group("/group1", h.CORS())
+	group := engine.Group("/group1", CORS())
 	group.GET("/ping", func(c *blade.Context) {
 		c.JSON(map[string]string{"message": "hello"}, nil)
 	})
 
-	group2 := engine.Group("/group2", h.CORS())
+	group2 := engine.Group("/group2", CORS())
 	group2.GET("/ping", func(c *blade.Context) {
 		c.JSON(map[string]string{"message": "welcome"}, nil)
 	})
@@ -47,13 +47,13 @@ func ExampleEngine_Use() {
 		return func(c *blade.Context) {
 			start := time.Now()
 			c.Next()
-			log.Error("total consume: %v", time.Now().Sub(start))
+			slog.Error("total consume: %v", time.Now().Sub(start))
 		}
 	}
 
 	engine := blade.Default()
 
-	engine.Use(h.CORS())
+	engine.Use(CORS())
 	engine.Use(timeLogger())
 
 	engine.GET("/ping", func(c *blade.Context) {
@@ -70,7 +70,7 @@ func ExampleEngine_UseFunc() {
 	engine.UseFunc(func(c *blade.Context) {
 		start := time.Now()
 		c.Next()
-		log.Error("total consume: %v", time.Now().Sub(start))
+		slog.Error("total consume: %v", time.Now().Sub(start))
 	})
 
 	engine.GET("/ping", func(c *blade.Context) {
@@ -89,11 +89,11 @@ func ExampleEngine_RunUnix() {
 
 	unixs, err := ioutil.TempFile("", "engine.sock")
 	if err != nil {
-		log.Error("Failed to create temp file: %s", err)
+		slog.Error("Failed to create temp file: %s", err)
 	}
 
 	if err := engine.RunUnix(unixs.Name()); err != nil {
-		log.Error("Failed to serve with unix socket: %s", err)
+		slog.Error("Failed to serve with unix socket: %s", err)
 	}
 }
 

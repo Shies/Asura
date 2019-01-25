@@ -9,7 +9,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	h "blade/hook"
+	. "blade/hook"
 
 	"github.com/pkg/errors"
 )
@@ -69,7 +69,7 @@ func New() *Engine {
 	}
 	engine.RouterGroup.engine = engine
 	// NOTE add prometheus monitor location
-	engine.addRoute("GET", "/metrics", h.Monitor())
+	engine.addRoute("GET", "/metrics", Monitor())
 	engine.addRoute("GET", "/metadata", engine.metadata())
 	return engine
 }
@@ -77,7 +77,7 @@ func New() *Engine {
 // Default returns an Engine instance with the Recovery, Logger and CSRF middleware already attached.
 func Default() *Engine {
 	engine := New()
-	engine.Use(h.Recovery(), h.Logger(), h.CSRF(), h.Mobile())
+	engine.Use(Recovery(), Logger(), CSRF(), Mobile())
 	return engine
 }
 

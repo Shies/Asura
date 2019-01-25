@@ -5,7 +5,7 @@ import (
 
 	"blade"
 	"blade/ecode"
-	"blade/log"
+	"blade/slog"
 )
 
 // Logger init middleware
@@ -20,7 +20,7 @@ func Logger() blade.HandlerFunc {
 
 		err := c.Error
 		cerr := ecode.Cause(err)
-		lv := log.D{
+		lv := slog.D{
 			"method": req.Method,
 			"ip":     ip,
 			"path":   path,
@@ -29,10 +29,10 @@ func Logger() blade.HandlerFunc {
 			"msg":    cerr.Message(),
 			"stack":  fmt.Sprintf("%+v", err),
 		}
-		lf := log.Infov
+		lf := slog.Infov
 		if err != nil {
 			lv["err"] = err.Error()
-			lf = log.Errorv
+			lf = slog.Errorv
 		}
 		lf(c, lv)
 	}

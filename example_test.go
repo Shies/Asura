@@ -8,8 +8,8 @@ import (
 	"blade"
 	"blade/render"
 	"blade/binding"
+	"blade/logger"
 	. "blade/hook"
-	"blade/slog"
 )
 
 // This example start a http server and listen at port 8080,
@@ -47,7 +47,7 @@ func ExampleEngine_Use() {
 		return func(c *blade.Context) {
 			start := time.Now()
 			c.Next()
-			slog.Error("total consume: %v", time.Now().Sub(start))
+			logger.Error("total consume: %v", time.Now().Sub(start))
 		}
 	}
 
@@ -70,7 +70,7 @@ func ExampleEngine_UseFunc() {
 	engine.UseFunc(func(c *blade.Context) {
 		start := time.Now()
 		c.Next()
-		slog.Error("total consume: %v", time.Now().Sub(start))
+		logger.Error("total consume: %v", time.Now().Sub(start))
 	})
 
 	engine.GET("/ping", func(c *blade.Context) {
@@ -89,11 +89,11 @@ func ExampleEngine_RunUnix() {
 
 	unixs, err := ioutil.TempFile("", "engine.sock")
 	if err != nil {
-		slog.Error("Failed to create temp file: %s", err)
+		logger.Error("Failed to create temp file: %s", err)
 	}
 
 	if err := engine.RunUnix(unixs.Name()); err != nil {
-		slog.Error("Failed to serve with unix socket: %s", err)
+		logger.Error("Failed to serve with unix socket: %s", err)
 	}
 }
 

@@ -1,4 +1,4 @@
-package slog
+package logger
 
 // Level of severity.
 type Level int

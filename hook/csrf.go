@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"blade"
-	"blade/slog"
+	"blade/logger"
 )
 
 var (
@@ -24,7 +24,7 @@ func CSRF() blade.HandlerFunc {
 			if !cross {
 				return
 			}
-			slog.Error("The request's Referer header is empty.")
+			logger.Error("The request's Referer header is empty.")
 			c.AbortWithStatus(403)
 			return
 		}
@@ -38,7 +38,7 @@ func CSRF() blade.HandlerFunc {
 			}
 		}
 		if illegal {
-			slog.Error("The request's Referer header `%s` does not match any of allowed referers.", referer)
+			logger.Error("The request's Referer header `%s` does not match any of allowed referers.", referer)
 			c.AbortWithStatus(403)
 			return
 		}

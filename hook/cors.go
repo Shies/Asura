@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"blade"
-	"blade/slog"
+	"blade/logger"
 
 	"github.com/pkg/errors"
 )
@@ -124,7 +124,7 @@ func (cors *cors) applyCORS(c *blade.Context) {
 		return
 	}
 	if !cors.validateOrigin(origin) {
-		slog.Error("The request's Origin header `%s` does not match any of allowed origins.", origin)
+		logger.Error("The request's Origin header `%s` does not match any of allowed origins.", origin)
 		c.AbortWithStatus(http.StatusForbidden)
 		return
 	}

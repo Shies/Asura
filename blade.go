@@ -9,8 +9,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	. "blade/hook"
-
 	"github.com/pkg/errors"
 )
 
@@ -136,9 +134,9 @@ func (engine *Engine) handleContext(c *Context) {
 	tm := engine.conf.Timeout
 	engine.lock.RUnlock()
 	if tm > 0 {
-		c.Context, cancel = context.WithTimeout(c, tm)
+		c.Context, cancel = context.WithTimeout(context.Background(), tm)
 	} else {
-		c.Context, cancel = context.WithCancel(c)
+		c.Context, cancel = context.WithCancel(context.Background())
 	}
 	defer cancel()
 	c.Next()

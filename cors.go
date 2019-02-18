@@ -1,4 +1,4 @@
-package hook
+package blade
 
 import (
 	"net/http"
@@ -6,7 +6,6 @@ import (
 	"strings"
 	"time"
 
-	"blade"
 	"blade/logger"
 
 	"github.com/pkg/errors"
@@ -80,7 +79,7 @@ func (c *CORSConfig) Validate() error {
 }
 
 // CORS returns the location middleware with default configuration.
-func CORS() blade.HandlerFunc {
+func CORS() HandlerFunc {
 	config := &CORSConfig{
 		AllowMethods:     []string{"GET", "POST"},
 		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
@@ -99,7 +98,7 @@ func CORS() blade.HandlerFunc {
 }
 
 // newCORS returns the location middleware with user-defined custom configuration.
-func newCORS(config *CORSConfig) blade.HandlerFunc {
+func newCORS(config *CORSConfig) HandlerFunc {
 	if err := config.Validate(); err != nil {
 		panic(err.Error())
 	}
@@ -112,12 +111,12 @@ func newCORS(config *CORSConfig) blade.HandlerFunc {
 		preflightHeaders: generatePreflightHeaders(config),
 	}
 
-	return func(c *blade.Context) {
+	return func(c *Context) {
 		cors.applyCORS(c)
 	}
 }
 
-func (cors *cors) applyCORS(c *blade.Context) {
+func (cors *cors) applyCORS(c *Context) {
 	origin := c.Request.Header.Get("Origin")
 	if len(origin) == 0 {
 		// request is not a CORS request
@@ -157,14 +156,14 @@ func (cors *cors) validateOrigin(origin string) bool {
 	return false
 }
 
-func (cors *cors) handlePreflight(c *blade.Context) {
+func (cors *cors) handlePreflight(c *Context) {
 	header := c.Writer.Header()
 	for key, value := range cors.preflightHeaders {
 		header[key] = value
 	}
 }
 
-func (cors *cors) handleNormal(c *blade.Context) {
+func (cors *cors) handleNormal(c *Context) {
 	header := c.Writer.Header()
 	for key, value := range cors.normalHeaders {
 		header[key] = value

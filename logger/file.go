@@ -5,7 +5,7 @@ import (
 	"math"
 	"path"
 
-	"golang/log4go"
+	"github.com/alecthomas/log4go"
 )
 
 // FileHandler .

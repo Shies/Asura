@@ -1,4 +1,4 @@
-package hook
+package blade
 
 import (
 	"fmt"
@@ -6,13 +6,12 @@ import (
 	"os"
 	"runtime"
 
-	"blade"
 	"blade/logger"
 )
 
 // Recovery returns a middleware that recovers from any panics and writes a 500 if there was one.
-func Recovery() blade.HandlerFunc {
-	return func(c *blade.Context) {
+func Recovery() HandlerFunc {
+	return func(c *Context) {
 		defer func() {
 			var rawReq []byte
 			if err := recover(); err != nil {

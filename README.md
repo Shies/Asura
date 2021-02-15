@@ -20,4 +20,4 @@
 
 ##### 依赖包
 
-- go modules dependency
+- Go Modules dependency

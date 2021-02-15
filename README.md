@@ -1,4 +1,4 @@
-### blade
+### Asura
 
 > Blazing fast http framework for humans
 
@@ -20,4 +20,4 @@
 
 ##### 依赖包
 
-- No other dependency
+- go modules dependency

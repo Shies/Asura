@@ -1,4 +1,4 @@
-package blade
+package Asura
 
 import (
 	"context"
@@ -117,7 +117,7 @@ func (engine *Engine) addRoute(method, path string, handlers ...HandlerFunc) {
 // Only the valid config will be loaded.
 func (engine *Engine) SetConfig(conf *Config) (err error) {
 	if conf.Timeout <= 0 {
-		return errors.New("blade: config timeout must greater than 0")
+		return errors.New("Asura: config timeout must greater than 0")
 	}
 	engine.lock.Lock()
 	engine.conf = conf

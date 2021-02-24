@@ -1,4 +1,4 @@
-module blade
+module Asura
 
 go 1.14
 

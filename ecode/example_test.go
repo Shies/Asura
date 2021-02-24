@@ -2,7 +2,7 @@ package ecode_test
 
 import (
 	"fmt"
-	"blade/ecode"
+	"Asura/ecode"
 
 	"github.com/pkg/errors"
 )

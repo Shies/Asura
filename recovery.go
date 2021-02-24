@@ -1,4 +1,4 @@
-package blade
+package Asura
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"os"
 	"runtime"
 
-	"blade/logger"
+	"Asura/logger"
 )
 
 // Recovery returns a middleware that recovers from any panics and writes a 500 if there was one.

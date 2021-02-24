@@ -24,12 +24,12 @@
 package main
 
 import (
-	blade "github.com/Shies/Asura"
+	Asura "github.com/Shies/Asura"
 )
 
 func main() {
-    engine := blade.Default()
-    engine.GET("/ping", func(c *blade.Context) {
+    engine := Asura.Default()
+    engine.GET("/ping", func(c *Asura.Context) {
     	c.String(200, "%s", "pong")
     })
     engine.Run(":8080")

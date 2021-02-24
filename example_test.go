@@ -1,21 +1,21 @@
-package blade_test
+package Asura_test
 
 import (
 	"io/ioutil"
 	"net/http"
 	"time"
 
-	"blade"
-	"blade/render"
-	"blade/binding"
-	"blade/logger"
+	"Asura"
+	"Asura/render"
+	"Asura/binding"
+	"Asura/logger"
 )
 
 // This example start a http server and listen at port 8080,
 // it will handle '/ping' and return response in html text
 func Example() {
-	engine := blade.Default()
-	engine.GET("/ping", func(c *blade.Context) {
+	engine := Asura.Default()
+	engine.GET("/ping", func(c *Asura.Context) {
 		c.String(200, "%s", "pong")
 	})
 	engine.Run(":8080")
@@ -24,15 +24,15 @@ func Example() {
 // This example use `RouterGroup` to separate different requests,
 // it will handle ('/group1/ping', '/group2/ping') and return response in json
 func ExampleRouterGroup() {
-	engine := blade.Default()
+	engine := Asura.Default()
 
-	group := engine.Group("/group1", blade.CORS())
-	group.GET("/ping", func(c *blade.Context) {
+	group := engine.Group("/group1", Asura.CORS())
+	group.GET("/ping", func(c *Asura.Context) {
 		c.JSON(map[string]string{"message": "hello"}, nil)
 	})
 
-	group2 := engine.Group("/group2", blade.CORS())
-	group2.GET("/ping", func(c *blade.Context) {
+	group2 := engine.Group("/group2", Asura.CORS())
+	group2.GET("/ping", func(c *Asura.Context) {
 		c.JSON(map[string]string{"message": "welcome"}, nil)
 	})
 
@@ -42,20 +42,20 @@ func ExampleRouterGroup() {
 // This example add two middlewares in the root router by `Use` method,
 // it will add CORS headers in response and log total consumed time
 func ExampleEngine_Use() {
-	timeLogger := func() blade.HandlerFunc {
-		return func(c *blade.Context) {
+	timeLogger := func() Asura.HandlerFunc {
+		return func(c *Asura.Context) {
 			start := time.Now()
 			c.Next()
 			logger.Error("total consume: %v", time.Now().Sub(start))
 		}
 	}
 
-	engine := blade.Default()
+	engine := Asura.Default()
 
-	engine.Use(blade.CORS())
+	engine.Use(Asura.CORS())
 	engine.Use(timeLogger())
 
-	engine.GET("/ping", func(c *blade.Context) {
+	engine.GET("/ping", func(c *Asura.Context) {
 		c.String(200, "%s", "pong")
 	})
 	engine.Run(":8080")
@@ -64,15 +64,15 @@ func ExampleEngine_Use() {
 // This example add two middlewares in the root router by `UseFunc` method,
 // it will log total consumed time
 func ExampleEngine_UseFunc() {
-	engine := blade.Default()
+	engine := Asura.Default()
 
-	engine.UseFunc(func(c *blade.Context) {
+	engine.UseFunc(func(c *Asura.Context) {
 		start := time.Now()
 		c.Next()
 		logger.Error("total consume: %v", time.Now().Sub(start))
 	})
 
-	engine.GET("/ping", func(c *blade.Context) {
+	engine.GET("/ping", func(c *Asura.Context) {
 		c.String(200, "%s", "pong")
 	})
 	engine.Run(":8080")
@@ -81,8 +81,8 @@ func ExampleEngine_UseFunc() {
 // This example start a http server through the specified unix socket,
 // it will handle '/ping' and return reponse in html text
 func ExampleEngine_RunUnix() {
-	engine := blade.Default()
-	engine.GET("/ping", func(c *blade.Context) {
+	engine := Asura.Default()
+	engine.GET("/ping", func(c *Asura.Context) {
 		c.String(200, "%s", "pong")
 	})
 
@@ -103,9 +103,9 @@ func ExampleContext_JSON() {
 		Time time.Time
 	}
 
-	engine := blade.Default()
+	engine := Asura.Default()
 
-	engine.GET("/ping", func(c *blade.Context) {
+	engine.GET("/ping", func(c *Asura.Context) {
 		var d Data
 		d.Time = time.Now()
 		c.JSON(d, nil)
@@ -117,8 +117,8 @@ func ExampleContext_JSON() {
 // This example show how to render response in protobuf format
 // it will marshal whole response content to protobuf
 func ExampleContext_Protobuf() {
-	engine := blade.Default()
-	engine.GET("/ping.pb", func(c *blade.Context) {
+	engine := Asura.Default()
+	engine.GET("/ping.pb", func(c *Asura.Context) {
 		t := &render.PB{
 			Code: http.StatusOK,
 		}
@@ -135,9 +135,9 @@ func ExampleContext_XML() {
 		Time time.Time
 	}
 
-	engine := blade.Default()
+	engine := Asura.Default()
 
-	engine.GET("/ping", func(c *blade.Context) {
+	engine.GET("/ping", func(c *Asura.Context) {
 		var d Data
 		d.Time = time.Now()
 		c.XML(d, nil)
@@ -149,8 +149,8 @@ func ExampleContext_XML() {
 // This example show how to protect your handlers by HTTP basic auth,
 // it will validate the baisc auth and abort with status 403 if authentication is invalid
 func ExampleContext_Abort() {
-	engine := blade.Default()
-	engine.UseFunc(func(c *blade.Context) {
+	engine := Asura.Default()
+	engine.UseFunc(func(c *Asura.Context) {
 		user, pass, isok := c.Request.BasicAuth()
 		if !isok || user != "root" || pass != "root" {
 			c.AbortWithStatus(403)
@@ -158,7 +158,7 @@ func ExampleContext_Abort() {
 		}
 	})
 
-	engine.GET("/auth", func(c *blade.Context) {
+	engine.GET("/auth", func(c *Asura.Context) {
 		c.String(200, "%s", "Welcome")
 	})
 
@@ -168,8 +168,8 @@ func ExampleContext_Abort() {
 // This example show how to using the default parameter binding to parse the url param from get request,
 // it will validate the request and abort with status 400 if params is invalid
 func ExampleContext_Bind() {
-	engine := blade.Default()
-	engine.GET("/bind", func(c *blade.Context) {
+	engine := Asura.Default()
+	engine.GET("/bind", func(c *Asura.Context) {
 		v := new(struct {
 			// This mark field `mids` should exist and every element should greater than 1
 			Mids    []int64 `form:"mids" validate:"dive,gt=1,required"`
@@ -194,8 +194,8 @@ func ExampleContext_Bind() {
 // This example show how to using the json binding to parse the json param from post request body,
 // it will validate the request and abort with status 400 if params is invalid
 func ExampleContext_BindWith() {
-	engine := blade.Default()
-	engine.POST("/bindwith", func(c *blade.Context) {
+	engine := Asura.Default()
+	engine.POST("/bindwith", func(c *Asura.Context) {
 		v := new(struct {
 			// This mark field `mids` should exist and every element should greater than 1
 			Mids    []int64 `json:"mids" validate:"dive,gt=1,required"`

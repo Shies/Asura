@@ -1,6 +1,6 @@
 ### Asura
 
-> Blazing fast http hook for humans
+> Blazing fast http pluginHook for humans
 
 ##### 项目简介
 
@@ -17,6 +17,24 @@
 ##### 编译环境
 
 - **请只用 Golang v1.11.x 以上版本编译执行**
+
+##### 如何使用
+
+```go
+package main
+
+import (
+	blade "github.com/Shies/Asura"
+)
+
+func main() {
+    engine := blade.Default()
+    engine.GET("/ping", func(c *blade.Context) {
+    	c.String(200, "%s", "pong")
+    })
+    engine.Run(":8080")
+}
+```
 
 ##### 依赖包
 

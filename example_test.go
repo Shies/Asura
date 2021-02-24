@@ -9,7 +9,6 @@ import (
 	"blade/render"
 	"blade/binding"
 	"blade/logger"
-	. "blade/hook"
 )
 
 // This example start a http server and listen at port 8080,
@@ -27,12 +26,12 @@ func Example() {
 func ExampleRouterGroup() {
 	engine := blade.Default()
 
-	group := engine.Group("/group1", CORS())
+	group := engine.Group("/group1", blade.CORS())
 	group.GET("/ping", func(c *blade.Context) {
 		c.JSON(map[string]string{"message": "hello"}, nil)
 	})
 
-	group2 := engine.Group("/group2", CORS())
+	group2 := engine.Group("/group2", blade.CORS())
 	group2.GET("/ping", func(c *blade.Context) {
 		c.JSON(map[string]string{"message": "welcome"}, nil)
 	})
@@ -53,7 +52,7 @@ func ExampleEngine_Use() {
 
 	engine := blade.Default()
 
-	engine.Use(CORS())
+	engine.Use(blade.CORS())
 	engine.Use(timeLogger())
 
 	engine.GET("/ping", func(c *blade.Context) {

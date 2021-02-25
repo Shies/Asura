@@ -3,8 +3,8 @@ package Asura
 import (
 	"fmt"
 
-	"Asura/ecode"
-	"Asura/logger"
+	"Asura/src/ecode"
+	"Asura/src/logger"
 )
 
 // Logger init middleware

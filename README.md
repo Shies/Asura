@@ -16,7 +16,7 @@
 
 ##### 编译环境
 
-- **请只用 Golang v1.11.x 以上版本编译执行**
+- **请只用 Golang v1.13.x 以上版本编译执行**
 
 ##### 如何使用
 
@@ -24,7 +24,7 @@
 package main
 
 import (
-	blade "Asura"
+	blade "Asura/src"
 )
 
 func main() {

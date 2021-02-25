@@ -1,0 +1,95 @@
+version="1.0.0"
+debug=true
+env="dev"
+family="ali-dts"
+
+[httpServer]
+  addrs=["127.0.0.1:9701"]
+  maxListen=0
+  timeout="1s"
+  readTimeout="1s"
+  writeTimeout="1s"
+
+[rpcServer2]
+    token= "123456"
+    [[rpcServer2.servers]]
+    proto = "tcp"
+    addr = ":41005"
+    weight = 10
+
+[kafkaProducer]
+  [kafkaProducer.test]
+    cluster = "test_kafka"
+    brokers = ["172.16.188.47:9092","172.16.188.48:9092","172.16.188.46:9092"]
+    sync = true
+
+[kafkaConsumer]
+  [kafkaConsumer.test]
+    offset = "old"
+    groupID = "example"
+    topic = ["example"]
+    addrs = ["47.111.159.109:9092"]
+    [kafkaConsumer.test.redis]
+      name="sync-redis"
+      proto="tcp"
+      addr="127.0.0.1:6379"
+      auth="229616801"
+      idle=10
+      active=30
+      dialTimeout = "1s"
+      readTimeout = "1s"
+      writeTimeout = "1s"
+      idleTimeout = "10s"
+
+[redis]
+  idle=10
+  active=30
+  dialTimeout = "1s"
+  readTimeout = "1s"
+  writeTimeout = "1s"
+  idleTimeout = "10s"
+  [redis.node1]
+    [redis.node1.master]
+      proto = "tcp"
+      host = "127.0.0.1"
+      port = "6379"
+      auth = "229616801"
+  [redis.node2]
+    [redis.node2.master]
+      proto = "tcp"
+      host = "127.0.0.1"
+      port = "6379"
+      auth = "229616801"
+
+[memcache]
+  idle=10
+  timeout="1s"
+  [memcache.node0]
+    host="127.0.0.1"
+    port="11211"
+  [memcache.node1]
+    host="127.0.0.1"
+    port="11211"
+  [memcache.node2]
+    host="127.0.0.1"
+    port="11211"
+  [memcache.node3]
+    host="127.0.0.1"
+    port="11211"
+  [memcache.node4]
+    host="127.0.0.1"
+    port="11211"
+
+[httpClient]
+  timeout="1s"
+  dialtimeout="2s"
+  keepalive="60s"
+
+[rpcClient]
+  proto="tcp"
+  addrs=["127.0.0.1:41005"]
+  retry=3
+  times=1
+
+[xlog]
+  dir = "/tmp/app-example"

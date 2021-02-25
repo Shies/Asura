@@ -6,7 +6,7 @@ import (
 	"os"
 	"runtime"
 
-	"Asura/logger"
+	"Asura/src/logger"
 )
 
 // Recovery returns a middleware that recovers from any panics and writes a 500 if there was one.

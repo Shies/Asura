@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"time"
 
-	"Asura"
-	"Asura/render"
-	"Asura/binding"
-	"Asura/logger"
+	"Asura/src"
+	"Asura/src/render"
+	"Asura/src/binding"
+	"Asura/src/logger"
 )
 
 // This example start a http server and listen at port 8080,

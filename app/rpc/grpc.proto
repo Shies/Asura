@@ -1,0 +1,17 @@
+syntax = "proto3";
+package rpc;
+
+message Response {
+    int32  code = 1;
+    string message = 2;
+    int64  ttl = 3;
+    string data = 4;
+}
+
+message Request {
+
+}
+
+service Transport {
+    rpc Ping(Request) returns (Response);
+}

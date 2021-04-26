@@ -3,7 +3,7 @@ package dao
 import (
 	"fmt"
 
-	"Asura/src/logger"
+	log "Asura/src/logger"
 
 	"github.com/garyburd/redigo/redis"
 )
@@ -28,7 +28,7 @@ func (d *Dao) PipeLine(values map[string]string) (reply interface{}, err error) 
 
 	_ = conn.Flush()
 	if reply, err = conn.Receive(); err != nil {
-		logger.Error("Note: the redis pipeline recv fail(%v)", err)
+		log.Error("Note: the redis pipeline recv fail(%v)", err)
 		return
 	}
 	return
@@ -45,7 +45,7 @@ func (d *Dao) GetValues(key string) (reply string, err error) {
 	if (isExists) {
 		reply, err = redis.String(conn.Do("GET", _key))
 		if err != nil {
-			logger.Error("redis getValues error(%v)", err)
+			log.Error("redis getValues error(%v)", err)
 			return
 		}
 	}

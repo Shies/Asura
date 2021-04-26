@@ -7,7 +7,6 @@ import (
 
 func test(c *blade.Context) {
 	var (
-		_ = c.Request.ParseForm()
 		req = c.Request.Form
 		key = req.Get("key")
 	)

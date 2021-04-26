@@ -10,7 +10,7 @@ import (
 	"Asura/app/service"
 	"Asura/conf"
 	blade "Asura/src"
-	"Asura/src/logger"
+	log "Asura/src/logger"
 	"Asura/src/render"
 
 	"github.com/pkg/errors"
@@ -28,6 +28,7 @@ const (
 func ParseInt(value string) int64 {
 	intval, err := strconv.ParseInt(value, 10, 64)
 	if err != nil {
+		log.Error("the value(%s) parse fail(%v)", value, err)
 		intval = 0
 	}
 
@@ -37,6 +38,7 @@ func ParseInt(value string) int64 {
 func Atoi(value string) int {
 	intval, err := strconv.Atoi(value)
 	if err != nil {
+		log.Error("the value(%s) parse fail(%v)", value, err)
 		intval = 0
 	}
 
@@ -80,14 +82,14 @@ func Init(c *conf.Config, s *service.Service) (err error) {
 	}
 
 	initRouter(engine)
-	logger.Info("start http listen addr: %s", c.HttpServer.Addrs[0])
+	log.Info("start http listen addr: %s", c.HttpServer.Addrs[0])
 	server := &http.Server{
 		ReadTimeout:  time.Duration(c.HttpServer.ReadTimeout),
 		WriteTimeout: time.Duration(c.HttpServer.WriteTimeout),
 	}
 	go func() {
 		if err = engine.RunServer(server, l); err != nil {
-			logger.Error("Fatal: engine.ListenServer(%+v, %+v) error(%v)", server, l, err)
+			log.Error("Fatal: engine.ListenServer(%+v, %+v) error(%v)", server, l, err)
 		}
 	}()
 
@@ -99,7 +101,7 @@ func ping(c *blade.Context) {
 	/*
 	var err error
 	if err = srv.Ping(c); err != nil {
-		logger.Error("service ping error(%v)", err)
+		log.Error("service ping error(%v)", err)
 		c.AbortWithStatus(http.StatusServiceUnavailable)
 	}
 	*/

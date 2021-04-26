@@ -1,14 +1,13 @@
 package dao
 
 import (
-	"Asura/src/logger"
+	log "Asura/src/logger"
 
 	"github.com/garyburd/redigo/redis"
 )
 
 const (
 	_cacheDegrade = "cache_degrade"
-	ExpireTime = 3*24*3600
 )
 
 func (d *Dao) DegradeCacheKey() string {
@@ -25,7 +24,7 @@ func (d *Dao) SetDegradeCache(ts int64) (reply bool) {
 	defer conn.Close()
 	_, err = conn.Do("SET", key, ts)
 	if err != nil {
-		logger.Error("redis SetDegradeCache error(%v)", err)
+		log.Error("redis SetDegradeCache error(%v)", err)
 		return
 	}
 
@@ -45,7 +44,7 @@ func (d *Dao) GetDegradeCache() (result int64) {
 	if (isExists) {
 		result, err = redis.Int64(conn.Do("GET", key))
 		if err != nil {
-			logger.Error("redis GetDegradeCache error(%v)", err)
+			log.Error("redis GetDegradeCache error(%v)", err)
 			return
 		}
 	}

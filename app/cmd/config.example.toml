@@ -1,7 +1,7 @@
 version="1.0.0"
 debug=true
 env="dev"
-family="ali-dts"
+family="aliyun-dts"
 
 [httpServer]
   addrs=["127.0.0.1:9701"]
@@ -20,7 +20,7 @@ family="ali-dts"
 [kafkaProducer]
   [kafkaProducer.test]
     cluster = "test_kafka"
-    brokers = ["172.16.188.47:9092","172.16.188.48:9092","172.16.188.46:9092"]
+    brokers = ["127.0.0.1:9091","127.0.0.1:9092","127.0.0.1:9093"]
     sync = true
 
 [kafkaConsumer]
@@ -28,7 +28,7 @@ family="ali-dts"
     offset = "old"
     groupID = "example"
     topic = ["example"]
-    addrs = ["47.111.159.109:9092"]
+    addrs = ["127.0.0.1:9091","127.0.0.1:9092","127.0.0.1:9093"]
     [kafkaConsumer.test.redis]
       name="sync-redis"
       proto="tcp"
@@ -92,4 +92,4 @@ family="ali-dts"
   times=1
 
 [xlog]
-  dir = "/tmp/app-example"
+  dir = "/tmp/example-app"

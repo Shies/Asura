@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"Asura/app/dao"
 	"Asura/conf"
+	"Asura/app/dao"
 	"Asura/app/queue/kafka"
 
 	"github.com/Shopify/sarama"

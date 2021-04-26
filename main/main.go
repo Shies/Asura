@@ -6,8 +6,8 @@ import (
 
 func main() {
 	engine := blade.Default()
-	engine.GET("/ping", func(c *blade.Context) {
-		c.String(200, "%s", "pong")
+	engine.GET("/welcome", func(c *blade.Context) {
+		c.String(200, "%s", "hello world !!!")
 	})
 	engine.Run(":8080")
 }

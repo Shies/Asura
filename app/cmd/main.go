@@ -8,7 +8,7 @@ import (
 	"os/signal"
 
 	"Asura/conf"
-	"Asura/src/logger"
+	log "Asura/src/logger"
 	"Asura/app/http"
 	"Asura/app/service"
 )
@@ -21,13 +21,13 @@ func main() {
 	flag.Parse()
 	conf.Init()
 	if conf.Conf.Debug {
-		logger.Init(&logger.Config{
+		log.Init(&log.Config{
 			Dir: conf.Conf.Log.Dir,
 		})
-		defer logger.Close()
+		defer log.Close()
 	}
 	s = service.New(conf.Load())
-	logger.Info("abm-cache-center [version: s%] start", conf.Load().Version)
+	log.Info("dts-cache-center [version: s%] start", conf.Load().Version)
 	// rpc.Init(&conf.Conf, s)
 	http.Init(conf.Load(), s)
 	signalHandler()
@@ -44,7 +44,7 @@ func signalHandler() {
 		switch si {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGSTOP, syscall.SIGINT:
 			time.Sleep(time.Second * 2)
-			logger.Info("get a signal %s, stop the abm-cache-center process", si.String())
+			log.Info("get a signal %s, stop the dts-cache-center process", si.String())
 			s.Close()
 			s.Wait()
 			time.Sleep(time.Second)

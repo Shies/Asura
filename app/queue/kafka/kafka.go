@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"Asura/conf"
-	"Asura/src/logger"
+	log "Asura/src/logger"
 
 	"github.com/Shopify/sarama"
 	pkgerr "github.com/pkg/errors"
@@ -65,10 +65,10 @@ func (p *Producer) reSyncDial() {
 	var err error
 	for {
 		if err = p.syncDial(); err == nil {
-			logger.Info("kafka retry new sync producer ok")
+			log.Info("kafka retry new sync producer ok")
 			return
 		}
-		logger.Error("dial kafka producer error(%v)", err)
+		log.Error("dial kafka producer error(%v)", err)
 		time.Sleep(time.Second)
 	}
 }
@@ -87,10 +87,10 @@ func (p *Producer) reAsyncDial() {
 	var err error
 	for {
 		if err = p.asyncDial(); err == nil {
-			logger.Info("kafka retry new async producer ok")
+			log.Info("kafka retry new async producer ok")
 			return
 		}
-		logger.Error("dial kafka producer error(%v)", err)
+		log.Error("dial kafka producer error(%v)", err)
 		time.Sleep(time.Second)
 	}
 }
@@ -104,7 +104,7 @@ func (p *Producer) errproc() {
 		if !ok {
 			return
 		}
-		logger.Error("kafka producer send message(%v) failed error(%v)", e.Msg, e.Err)
+		log.Error("kafka producer send message(%v) failed error(%v)", e.Msg, e.Err)
 		if _, ok := e.Msg.Metadata.(context.Context); ok {
 			// to do sth.
 		}
@@ -191,7 +191,7 @@ func (c *Consumer) monitor() {
 		WriteTimeout: time.Duration(c.c.Monitor.WriteTimeout),
 	}
 	if err := server.ListenAndServe(); err != nil {
-		logger.Error("server.ListenAndServe error(%v)", err)
+		log.Error("server.ListenAndServe error(%v)", err)
 		panic(err)
 	}
 }
@@ -228,10 +228,10 @@ func (c *Consumer) redial() {
 	var err error
 	for {
 		if err = c.dial(); err == nil {
-			logger.Info("kafka retry new consumer ok")
+			log.Info("kafka retry new consumer ok")
 			return
 		}
-		logger.Error("dial kafka consumer error(%v)", err)
+		log.Error("dial kafka consumer error(%v)", err)
 		time.Sleep(time.Second)
 	}
 }

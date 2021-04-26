@@ -2,9 +2,9 @@ package conf
 
 import (
 	"os"
-	"sync"
-	"syscall"
 	"os/signal"
+	"syscall"
+	"sync"
 
 	"Asura/src/logger"
 )
@@ -32,7 +32,7 @@ func Init() {
 	go func() {
 		for {
 			<-s
-			logger.Info("Reloaded config:", ParseConfig())
+			logger.Info("Reloaded config:", Load())
 		}
 	}()
 

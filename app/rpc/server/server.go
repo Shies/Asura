@@ -9,7 +9,7 @@ import (
 	. "Asura/app/rpc"
 	"Asura/app/service"
 	"Asura/src/ecode"
-	"Asura/src/logger"
+	log "Asura/src/logger"
 
 	"google.golang.org/grpc"
 )
@@ -36,13 +36,13 @@ func Init(c *conf.Config, s *service.Service) {
 
 	lis, err := net.Listen(c.RPCServer2.Servers[0].Proto, c.RPCServer2.Servers[0].Addr)
 	if err != nil {
-		logger.Error("failed to listen: %v", err)
+		log.Error("failed to listen: %v", err)
 	}
 	g := grpc.NewServer()
 	RegisterTransportServer(g, &Transport{})
 	err = g.Serve(lis)
 	if err != nil {
-		logger.Info("grpc server in: %s, (%v)", Port, err)
+		log.Info("grpc server in: %s, (%v)", Port, err)
 	}
 	return
 }

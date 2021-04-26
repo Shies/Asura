@@ -192,6 +192,14 @@ type Redis struct {
 	Auth  string `toml:"auth"`
 }
 
+// UDP server & client
+type UDPServer struct {
+	Proto string	`toml:"proto"`
+	Host  string	`toml:"host"`
+	Port  int8		`toml:"port"`
+	Role  string	`toml:"role"`
+}
+
 func init() {
 	flag.StringVar(&path, "conf", "", "default config path")
 }

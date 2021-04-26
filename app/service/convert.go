@@ -1,11 +1,12 @@
 package service
 
 import (
-	"Asura/app/model"
-	xtime "Asura/app/time"
 	"reflect"
 	"strconv"
 	"unsafe"
+
+	"Asura/app/model"
+	xtime "Asura/app/time"
 
 	"github.com/yvasiyarov/php_session_decoder/php_serialize"
 )
@@ -37,7 +38,7 @@ func (s *Service) map2struct(result interface{}, stype string) interface{} {
 					if str, ok := val.(string); ok {
 						origin, _ = strconv.Atoi(str)
 					} else {
-						origin = int(val.(int))
+						origin = int(val.(int64))
 					}
 					refvalue.Elem().Field(i).SetInt(int64(origin))
 				case reflect.Float64,reflect.Float32:
@@ -52,13 +53,13 @@ func (s *Service) map2struct(result interface{}, stype string) interface{} {
 					refvalue.Elem().Field(i).SetString(val.(string))
 				case reflect.Bool:
 					var origin int
-					if origin = int(val.(int)); origin > 0 {
+					if origin = int(val.(int64)); origin > 0 {
 						refvalue.Elem().Field(i).SetBool(true)
 					} else {
 						refvalue.Elem().Field(i).SetBool(false)
 					}
 				case reflect.Struct:
-					//时间类型
+					// 时间类型
 					var t xtime.DateTime
 					t = xtime.DateTime(ConvertTime(val.(string), xtime.StandardLayout))
 					refvalue.Elem().Field(i).Set(reflect.ValueOf(t))

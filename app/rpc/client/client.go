@@ -8,7 +8,7 @@ import (
 
 	"Asura/conf"
 	. "Asura/app/rpc"
-	"Asura/src/logger"
+	log "Asura/src/logger"
 	_ "Asura/src/ecode"
 
 	"google.golang.org/grpc"
@@ -46,7 +46,7 @@ func NewClient(c *conf.RpcClient) *Conn {
 		}(conn)
 	}
 	conn.wg.Wait()
-	logger.Info("time taken: %.2f ", time.Now().Sub(currTime).Seconds())
+	log.Info("time taken: %.2f ", time.Now().Sub(currTime).Seconds())
 	if conn.err != nil {
 		panic(conn.err)
 	}

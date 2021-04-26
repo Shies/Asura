@@ -32,15 +32,15 @@ func IsMobile(mobileNum string) bool {
 }
 
 func InArray(source int64, target []int64) bool {
-	var isExists = false
+	var exists = false
 	for _, v := range target {
 		if v == source {
-			isExists = true
+			exists = true
 			break
 		}
 	}
 
-	return isExists
+	return exists
 }
 
 func ValidateIsTimeout(timef int64) bool {

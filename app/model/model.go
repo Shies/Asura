@@ -6,9 +6,13 @@ type Welcome struct {
 }
 
 func (*Welcome) TableName() string {
-	return ""
+	return "welcome"
 }
 
 func (*Welcome) Len() int {
 	return 0
+}
+
+func (*Welcome) Swap() bool {
+	return false
 }

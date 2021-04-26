@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"Asura/conf"
-	"Asura/src/logger"
+	log "Asura/src/logger"
 
 	"github.com/bradfitz/gomemcache/memcache"
 )
@@ -32,7 +32,7 @@ func NewMemcache(c *conf.Memcache) *Memcache {
 func (ms *Memcache) Set(ctx context.Context, key string, value []byte, expire int32) (err error) {
 	err = ms.client.Set(&memcache.Item{Key: key, Value: value, Expiration: expire})
 	if err != nil {
-		logger.Error("memcache set error(%v)", err)
+		log.Error("memcache set error(%v)", err)
 		return
 	}
 
@@ -47,7 +47,7 @@ func (ms *Memcache) Get(ctx context.Context, key string) ([]byte, error) {
 			item = nil
 			err = nil
 		} else {
-			logger.Error("memcache get error(%v)", err)
+			log.Error("memcache get error(%v)", err)
 			return []byte(""), err
 		}
 	}

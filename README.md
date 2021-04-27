@@ -1,4 +1,4 @@
-### MicroServer
+### MicroServe
 
 > Blazing fast UDP & Gateway & DTS server for humans
 
@@ -24,8 +24,8 @@
 ##### 编译环境
 
 - **请只用 Golang v1.13.x 以上版本编译执行**
-- **supervisor管理进程**
-- **cmd/bin启动**
+- **linux supervisor监控进程**
+- **cmd/bin启动服务**
 
 ##### 如何使用
 

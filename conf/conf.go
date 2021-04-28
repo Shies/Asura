@@ -2,6 +2,7 @@ package conf
 
 import (
 	"flag"
+	_ "database/sql"
 
 	xtime "Asura/app/time"
 
@@ -24,6 +25,7 @@ type Common struct {
 // Config final config
 type Config struct {
 	*Common
+	// Mysql		*sql.Config
 	HttpServer 		*HTTPServer
 	RPCServer2      *RPCServer2
 	Zookeeper  		*Zookeeper
@@ -36,7 +38,13 @@ type Config struct {
 	KafkaProducer   *KafkaProducerList
 }
 
-// DegradeConfig
+// BreakerConfig for microserve core middleware
+type BreakerConfig struct {
+	// the all people can use google breaker of **hystrix_breaker**
+	// define conf to do sth.
+}
+
+// DegradeConfig for microserve core middleware
 type DegradeConfig struct {
 	Memcache *struct{
 		*Memcache
@@ -55,11 +63,12 @@ type HTTPServer struct {
 	WriteTimeout xtime.Duration
 }
 
-// HttpClient
+// HttpClient http client
 type HttpClient struct {
 	DialTimeout	xtime.Duration	`toml:"dialtimeout"`
 	Timeout	    xtime.Duration	`toml:"timeout"`
 	KeepAlive   xtime.Duration 	`toml:"keepalive"`
+	Breaker		*BreakerConfig	`toml:"breaker"` // breaker of conf control
 }
 
 // RPCServer rpc server settings.
@@ -79,12 +88,13 @@ type RPCServer2 struct {
 	Zookeeper   *Zookeeper
 }
 
-// grpc client config
+// RpcClient grpc client
 type RpcClient struct {
 	Proto   string
 	Addrs   []string
 	Retry 	int64		 // 连接并行度
 	Times   int64		 // 每连接请求次数
+	Breaker *BreakerConfig	 // breaker of conf control
 }
 
 // Zookeeper Server&Client settings.
@@ -145,6 +155,7 @@ type KafkaRedisConfig struct {
 // Log local storage of directory
 type Log struct {
 	Dir	string	`toml:"dir"`
+	// udp elk can extend conf property
 }
 
 // Memcache memcache client
@@ -196,11 +207,12 @@ type Redis struct {
 }
 
 // UDP server & client
-type UDPServer struct {
-	Proto string	`toml:"proto"`
-	Host  string	`toml:"host"`
-	Port  int8		`toml:"port"`
-	Role  string	`toml:"role"` // rbac privileges control
+type UDPClient struct {
+	Proto   string	 `toml:"proto"`
+	Host    string	 `toml:"host"`
+	Port    int8	 `toml:"port"`
+	Role    string	 `toml:"role"` 	// rbac privileges control
+	Breaker *BreakerConfig `toml:"breaker"` // breaker of conf control
 }
 
 func init() {

@@ -13,7 +13,7 @@ var (
 	path string
 )
 
-// common config
+// Common global config
 type Common struct {
 	Version    string
 	Debug      bool
@@ -21,7 +21,7 @@ type Common struct {
 	Family     string
 }
 
-// final config
+// Config final config
 type Config struct {
 	*Common
 	HttpServer 		*HTTPServer
@@ -36,7 +36,7 @@ type Config struct {
 	KafkaProducer   *KafkaProducerList
 }
 
-// Degrade config
+// DegradeConfig
 type DegradeConfig struct {
 	Memcache *struct{
 		*Memcache
@@ -91,8 +91,10 @@ type RpcClient struct {
 type Zookeeper struct {
 	Root    string
 	Addrs   []string
+	Timeout xtime.Duration
 }
 
+// KafkaProducerList kafka producer cluster
 type KafkaProducerList struct {
 	Test *KafkaProducer
 }
@@ -105,6 +107,7 @@ type KafkaProducer struct {
 	Sync      	bool // true: sync, false: async
 }
 
+// KafkaConsumerList kafka consumer cluster
 type KafkaConsumerList struct {
 	Test *KafkaConsumer
 }
@@ -119,7 +122,7 @@ type KafkaConsumer struct {
 	Redis     *KafkaRedisConfig
 }
 
-// Config Ali-DTS config.
+// KafkaRedisConfig Ali-DTS config.
 type KafkaRedisConfig struct {
 	Key          string
 	Secret       string
@@ -139,18 +142,18 @@ type KafkaRedisConfig struct {
 	IdleTimeout  xtime.Duration
 }
 
-// Log
+// Log local storage of directory
 type Log struct {
 	Dir	string	`toml:"dir"`
 }
 
-// Memcache
+// Memcache memcache client
 type Memcache struct {
 	Host string `toml:"host"`
 	Port string `toml:"port"`
 }
 
-// MemcacheCluster
+// MemcacheCluster hash of consistent
 type MemcacheCluster struct {
 	Idle 	int32			`toml:"idle"`
 	Timeout xtime.Duration	`toml:"timeout"`	// socket io read/write timeout
@@ -184,7 +187,7 @@ type RedisSync struct {
 	Slave   *Redis	`toml:"slave"`
 }
 
-// Redis
+// Redis redis client
 type Redis struct {
 	Proto string `toml:"proto"`
 	Host  string `toml:"host"`
@@ -197,7 +200,7 @@ type UDPServer struct {
 	Proto string	`toml:"proto"`
 	Host  string	`toml:"host"`
 	Port  int8		`toml:"port"`
-	Role  string	`toml:"role"`
+	Role  string	`toml:"role"` // rbac privileges control
 }
 
 func init() {

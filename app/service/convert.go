@@ -61,7 +61,7 @@ func (s *Service) map2struct(result interface{}, stype string) interface{} {
 				case reflect.Struct:
 					// 时间类型
 					var t xtime.DateTime
-					t = xtime.DateTime(ConvertTime(val.(string), xtime.StandardLayout))
+					t = xtime.DateTime{Time: ConvertTime(val.(string), xtime.StandardLayout)}
 					refvalue.Elem().Field(i).Set(reflect.ValueOf(t))
 				}
 			}

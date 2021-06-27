@@ -1,11 +1,13 @@
-package service
+package services
 
 import (
-	"regexp"
-	"math"
-	"time"
 	"crypto/md5"
 	"fmt"
+	"math"
+	"regexp"
+	"time"
+
+	xtime "Asura/app/time"
 
 	uuid "github.com/satori/go.uuid"
 )
@@ -16,19 +18,23 @@ const (
 
 func UUid() string {
 	v := uuid.Must(uuid.NewV4(), nil).String()
-	has := md5.Sum([]byte(v))
+	return Md5(v)
+}
+
+func Md5(value string) string {
+	has := md5.Sum([]byte(value))
 	md5val := fmt.Sprintf("%x", has) //将[]byte转成16进制
 	return md5val
 }
 
 func ConvertTime(str string, layout string) time.Time {
-	timer, _ := time.ParseInLocation(layout, str, time.Local)
-	return timer
+	dateTime, _ := time.ParseInLocation(layout, str, xtime.CSTZone)
+	return dateTime
 }
 
-func IsMobile(mobileNum string) bool {
+func IsMobile(mobile string) bool {
 	reg := regexp.MustCompile(_regular)
-	return reg.MatchString(mobileNum)
+	return reg.MatchString(mobile)
 }
 
 func InArray(source int64, target []int64) bool {
@@ -43,9 +49,11 @@ func InArray(source int64, target []int64) bool {
 	return exists
 }
 
-func ValidateIsTimeout(timef int64) bool {
-	timef = int64(math.Round(float64(timef) / 1000))
-	if (time.Now().Unix() - timef) > 60 {
+func ValidateIsTimeout(timef float64) bool {
+	timeout := int64(math.Round(float64(timef)))
+	// fmt.Println(time.Now().Unix())
+	// fmt.Println(timeout)
+	if (time.Now().Unix() - timeout) >= 0 {
 		return true
 	}
 

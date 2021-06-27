@@ -1,8 +1,10 @@
 package time
 
 import (
-	"time"
 	"context"
+	"database/sql/driver"
+	"fmt"
+	"time"
 )
 
 var (
@@ -10,58 +12,57 @@ var (
 	_ = time.Now().In(CSTZone).Format(StandardLayout)
 )
 
-// ISO8601Layout time parse layout
-const ISO8601Layout = "2006-01-02T15:04:05.000-0700"
 const StandardLayout = "2006-01-02 15:04:05"
 const StandardYmdLayout = "2006-01-02"
 
-// ISO8601Time alias time.Time
-type ISO8601Time time.Time
+// StandardTime alias time.Time
+type Time DateTime
 
 // StandardTime alias time.Time
-type DateTime time.Time
-
-// MarshalJSON implements the json.Marshaler interface.
-func (it ISO8601Time) MarshalJSON() ([]byte, error) {
-	return time.Time(it).MarshalJSON()
+type DateTime struct {
+	time.Time
 }
 
-// UnmarshalJSON implements the json.Unmarshaler interface.
-func (it *ISO8601Time) UnmarshalJSON(data []byte) (err error) {
-	t, err := time.Parse(`"`+ISO8601Layout+`"`, string(data))
-	*it = ISO8601Time(t)
-	return
+// Value insert timestamp into mysql need this function.
+func (it DateTime) Value() (driver.Value, error) {
+	var zeroTime time.Time
+	if it.Time.UnixNano() == zeroTime.UnixNano() {
+		return nil, nil
+	}
+	return it.Time, nil
 }
 
-func (it ISO8601Time) String() string {
-	return time.Time(it).Format(ISO8601Layout)
+// Scan valueof time.Time
+func (it *DateTime) Scan(v interface{}) error {
+	value, ok := v.(time.Time)
+	if ok {
+		*it = DateTime{Time: value}
+		return nil
+	}
+	return fmt.Errorf("can not convert %v to timestamp", v)
 }
 
 // MarshalJSON implements the json.Marshaler interface.
 func (it DateTime) MarshalJSON() ([]byte, error) {
 	b := make([]byte, 0, len(StandardLayout)+2)
 	b = append(b, '"')
-	b = time.Time(it).In(CSTZone).AppendFormat(b, StandardLayout)
+	b = Time(it).In(CSTZone).AppendFormat(b, StandardLayout)
 	b = append(b, '"')
 	return b, nil
 }
 
 // UnmarshalJSON implements the json.Unmarshaler interface.
-func (it *DateTime) UnmarshalJSON(data []byte) (err error) {
+func (it *DateTime) UnmarshalJSON(data []byte) error {
 	t, err := time.ParseInLocation(`"`+StandardLayout+`"`, string(data), CSTZone)
-	*it = DateTime(t)
-	return
+	if err == nil {
+		*it = DateTime{Time: t,}
+	}
+	return err
 }
-
-func (it DateTime) String() string {
-	return time.Time(it).In(CSTZone).Format(StandardLayout)
-}
-
 
 
 // StandardTime duration
 type Duration time.Duration
-
 
 // UnmarshalText unmarshal text to duration.
 func (d *Duration) UnmarshalText(text []byte) error {

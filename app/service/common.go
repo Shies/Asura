@@ -1,4 +1,4 @@
-package services
+package service
 
 import (
 	"crypto/md5"
@@ -22,9 +22,9 @@ func UUid() string {
 }
 
 func Md5(value string) string {
-	has := md5.Sum([]byte(value))
-	md5val := fmt.Sprintf("%x", has) //将[]byte转成16进制
-	return md5val
+	bytes := md5.Sum([]byte(value))
+	format := fmt.Sprintf("%x", bytes) //将[]byte转成16进制
+	return format
 }
 
 func ConvertTime(str string, layout string) time.Time {
@@ -37,16 +37,14 @@ func IsMobile(mobile string) bool {
 	return reg.MatchString(mobile)
 }
 
-func InArray(source int64, target []int64) bool {
-	var exists = false
+func InArray(source interface{}, target []interface{}) bool {
 	for _, v := range target {
 		if v == source {
-			exists = true
-			break
+			return true
 		}
 	}
 
-	return exists
+	return false
 }
 
 func ValidateIsTimeout(timef float64) bool {

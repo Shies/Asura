@@ -50,9 +50,9 @@ func Now(t time.Time) int64 {
 }
 
 // JSON2map json to map.
-func (d *Dao) JSON2map(rawmsg json.RawMessage) (map[string]interface{}, error) {
+func (d *Dao) JSON2map(msg json.RawMessage) (map[string]interface{}, error) {
 	var result map[string]interface{}
-	if err := json.Unmarshal([]byte(rawmsg), &result); err != nil {
+	if err := json.Unmarshal([]byte(msg), &result); err != nil {
 		return nil, err
 	}
 

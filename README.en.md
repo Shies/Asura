@@ -1,7 +1,7 @@
 # Asura
 
 #### Description
-udp服务器，api网关服务
+udp传输服务，api网关服务
 
 #### Software Architecture
 Software architecture description
